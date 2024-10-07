@@ -1,0 +1,2 @@
+﻿  ConsoleApplication1.cpp
+C:\Users\mforay\Desktop\C++ encapsualisation\C++ visual studio\ConsoleApplication1\ConsoleApplication1.cpp(14,1): error C4700: variable locale 'p' non initialisée utilisée
