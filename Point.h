@@ -2,21 +2,18 @@
 #define POINT_H
 
 #include <string>
-#include <sstream> // Pour utiliser std::ostringstream
+#include <sstream>
 
 class Point {
 public:
-    // Membres publics
     float x, y, z;
-
-    // Constructeur par défaut (initialise le point à l'origine)
-    Point() : x(0), y(0), z(0) {}
+    Point() : x(0.f), y(0.f), z(0.f) {}
 
     // Fonction qui renvoie une chaîne de caractères représentant le point
     std::string ToString() const {
-        std::ostringstream oss;
-        oss << "Point: x: " << x << ", y: " << y << ", z: " << z;
-        return oss.str();
+        std::stringstream stream;
+        stream << "Point: x: " << x << ", y: " << y << ", z: " << z;
+        return stream.str();
     }
 
     // Fonction d'affichage
@@ -25,4 +22,4 @@ public:
     }
 };
 
-#endif // POINT_H
+#endif

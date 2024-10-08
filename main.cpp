@@ -3,9 +3,9 @@
 #include "Point.h" 
 
 int main() {
-    Point p1; 
+    Point p; 
 
-    std::cout << p1.ToString() << std::endl;  
+    std::cout << p.ToString() << std::endl;  
 
     return 0;
 }
