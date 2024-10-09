@@ -22,16 +22,14 @@ class Vector2
 class Entity 
 {
     private:
-        float _Ex =0.0f; 
-        float _Ey =0.0f;
         Vector2 v;
     public:
-        Entity()
+        Entity(float x, float y)
         {
-        v.setVector2(_Ex, _Ey);
+        v.setVector2(x, y);
         }
-        void Entitypos(float _Ex, float _Ey){
-            v.setVector2(_Ex, _Ey);
+        void Entitypos(float x, float y){
+            v.setVector2(x, y);
         }
         std::vector<float> getEntitypos(){
             return v.getVector2();
@@ -41,15 +39,13 @@ class Entity
 class AMovable
 {
     private:    
-        float _x =1.0f; 
-        float _y =1.0f;
         float _vit = 1.0f;
         float speed;
         std::vector<float> direction;
         Vector2 v;
 
     public:
-        AMovable()
+        AMovable(float _x, float _y)
         {
         v.setVector2(_x, _y);
         SetterSpeed(_vit);
@@ -65,6 +61,86 @@ class AMovable
         virtual void SetterMove() = 0;
 
 
+};
+
+class Alive{
+    private:
+        float _maxlife;
+        float _life;
+
+    public:
+        Alive(float _maxlife){
+            _life = _maxlife;
+        }   
+        virtual float GetterMaxLife(){
+            return _maxlife;
+        }
+        virtual float GetterLife(){
+            return _life;
+        }
+        virtual void TakeDamage(float damage){
+            _life -= damage;
+        }
+};
+
+class IAttacker {
+    public:
+        virtual void attack(Alive* target) = 0;
+    };
+
+class StaticObject : public Entity {
+
+public:
+    StaticObject(int posX, int posY) : Entity(posX, posY) {
+        std::cout << "Static Object just created at x = " <<  posX << " and y = " << posY << std::endl;
+    }
+};
+
+class BreakableObject: public Entity, public Alive {
+public:
+    BreakableObject(float maxLife, int posX, int posY) : Alive(maxLife), Entity(posX, posY) {
+        std::cout << "Breakable Object just created at x = " << posX << " and y = " << posY << " with " << maxLife << std::endl;
+    }
+
+    void TakeDamage(float damage) override {
+        Alive::TakeDamage(damage);
+        if (GetterLife() <= 0) {
+            std::cout << "Breakable Object just broke" << std::endl;
+        }
+    }
+};
+
+
+class Mob : public Entity, public Alive, public AMovable {
+    private:
+    int posX, posY, maxLife, dirX, dirY;
+    public:
+    Mob(int posX, int posY, int maxLife, int dirX, int dirY)
+        : Entity(posX, posY), Alive(maxLife), AMovable(dirX, dirY) {
+        std::cout << "Mob just created at x = " << posX 
+                  << " and y = " << posY 
+                  << " with " << maxLife << " life "
+                  << "with direction x = " << dirX 
+                  << " and y = " << dirY << std::endl;
+    }
+
+        void TakeDamage(float damage) override {
+            Alive::TakeDamage(damage);
+            if (GetterLife() <= 0) {
+                std::cout << "Mob just died" << std::endl;
+            }
+        }
+
+        void SetterMove() override {
+            AMovable::SetterMove(); 
+            std::vector<float> pos = getEntitypos();
+            pos[0] += dirX * speed;
+            pos[1] += dirY * speed;
+            Entitypos(pos[0], pos[1]);
+            std::cout << "Mob moved to x = " << pos[0] << " and y = " << pos[1] << std::endl;
+        }
+        
+    
 };
 
 #endif

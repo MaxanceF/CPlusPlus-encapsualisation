@@ -19,9 +19,8 @@ std::ostream& operator<<(std::ostream& os, const std::vector<float>& vec) {
 int main()
 {
     Vector2 v;
-    Entity e;
     v.setVector2(5.5f,15.9f);
-    e.Entitypos(777.5f, 150.9f);
+    Entity e(100.5f, 200.7f);
     std::cout << v.getVector2() << std::endl;
     std::cout << e.getEntitypos() << std::endl;
     return 0;
