@@ -23,5 +23,17 @@ int main()
     Entity e(100.5f, 200.7f);
     std::cout << v.getVector2() << std::endl;
     std::cout << e.getEntitypos() << std::endl;
+
+    StaticObject staticObj(5, 10);
+
+    BreakableObject breakableObj(50.0f, 15, 20);
+    breakableObj.TakeDamage(20.0f);
+    breakableObj.TakeDamage(40.0f); 
+
+    Mob mob(30, 40, 100, 1, 1);
+    mob.SetterMove();
+    mob.TakeDamage(30.0f);
+    mob.TakeDamage(80.0f); 
+
     return 0;
 }
