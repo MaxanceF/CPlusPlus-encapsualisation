@@ -38,7 +38,7 @@ class Entity
 
 class AMovable
 {
-    private:    
+    protected:   
         float _vit = 1.0f;
         float speed;
         std::vector<float> direction;
@@ -49,15 +49,18 @@ class AMovable
         {
         v.setVector2(_x, _y);
         SetterSpeed(_vit);
-        SetterDirection(v.getVector2());
+        SetterDirection(_x, _y);
         }
 
-        virtual void SetterDirection(std::vector<float> _dir){
-            direction = {_dir};
-        };
+        virtual void SetterDirection(float dirX, float dirY) {
+            direction = {dirX, dirY};
+        }
         virtual void SetterSpeed(float _v){
             speed= _v;
         };
+        virtual float getSpeed() const {
+        return speed;
+        }
         virtual void SetterMove() = 0;
 
 
@@ -132,10 +135,9 @@ class Mob : public Entity, public Alive, public AMovable {
         }
 
         void SetterMove() override {
-            AMovable::SetterMove(); 
             std::vector<float> pos = getEntitypos();
-            pos[0] += dirX * speed;
-            pos[1] += dirY * speed;
+            pos[0] += dirX * getSpeed();
+            pos[1] += dirY * getSpeed();
             Entitypos(pos[0], pos[1]);
             std::cout << "Mob moved to x = " << pos[0] << " and y = " << pos[1] << std::endl;
         }
